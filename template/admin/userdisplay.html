@@ -1,0 +1,70 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+
+
+<div class="col bg-warning">
+  <h4 class="text-center ">User Information</h4>
+  <div class="container">
+    <div class="text-end pe-3">
+      <form class="my-4" action="{% url 'searchusername' %}">
+
+        <div class="input-group mb-3">
+          <input type="search" name="search" class="form-control" placeholder="Enter username">
+          <button class="btn btn-dark" type="submit" id="button-addon2">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="text-muted">Table data</div>
+  </div>
+  {% if usr %}
+  <table class="table table-striped ">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">USERNAME</th>
+        <th scope="col">FIRST NAME</th>
+        <th scope="col">LAST NAME</th>
+        <th scope="col"></th>        
+              
+        <th scope="col">ACTION</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for us in usr %}
+      <tr>
+        <th scope="row">{{us.id}}</th>
+        <td>{{us.username}}</td>
+        <td>{{us.first_name}}</td>
+        <td>{{us.last_name}}</td>
+        <td></td>
+        <td>
+          <a href="{% url 'updatedata' us.id %}" class="text-center btn btn-success btn-sm">Edit</a>
+          <form action="{% url 'deletedata' us.id %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <input type="submit" value="Delete" class="text-center btn btn-danger btn-sm my-1">
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% for message in messages %}
+<div class="float-end">
+  <p class="text-danger">{{message}}</p>
+</div>
+{% endfor %}
+<a href="/" class="btn btn-lg btn-success ml-3 mb-5">Back to Home</a>
+<a href="{% url 'signup' %}" class="btn btn-dark btn-lg btn-block"
+style="background-color: #535252;" type="submit">Register</a>
+</div>
+
+
+
+{% endblock content%}
