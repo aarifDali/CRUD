@@ -59,3 +59,12 @@ def update_items(request, pk):
         return Response(data.data)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    
+
+@api_view(['DELETE'])
+def delete_items(request, pk):
+    item = Item.objects.get(pk=pk)
+
+    item.delete()
+
+    return Response({'message':'Item deleted'}, status=status.HTTP_204_NO_CONTENT)
